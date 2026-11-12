@@ -1,0 +1,67 @@
+STEP 1: FEM validation, bare cantilever, Al 6061-T6, t = 2.0 mm
+Exact:      f1 =   18.13 Hz   f2 =  113.64 Hz   f3 =  318.21 Hz
+n_el        f1 (Hz)   err1 (%)    f2 (Hz)   err2 (%)    f3 (Hz)   err3 (%)
+1            18.220     0.4754    179.519    57.9655        NaN        NaN
+2            18.143     0.0484    114.609     0.8486    387.628    21.8160
+4            18.135     0.0033    113.777     0.1165    320.671     0.7742
+8            18.134     0.0002    113.653     0.0080    318.401     0.0608
+16           18.134     0.0000    113.645     0.0005    318.220     0.0040
+32           18.134     0.0000    113.644     0.0000    318.208     0.0003
+         line 0: warning: iconv failed to convert degree sign
+         line 0: warning: iconv failed to convert degree sign
+STEP 2: design study (L = 300 mm, b = 100 mm, tip mass = 50 g)
+Requirement f1 >= 40 Hz, design target with 10% margin: 44.0 Hz
+Material           t (mm)     f1 FEM    f1 hand     mass (g)      OK?
+Al 6061-T6            1.0       4.83       4.84         81.0       no
+Al 6061-T6            1.6       9.05       9.07        129.6       no
+Al 6061-T6            2.0      12.07      12.11        162.0       no
+Al 6061-T6            2.5      16.02      16.07        202.5       no
+Al 6061-T6            3.0      20.08      20.17        243.0       no
+Al 6061-T6            4.0      28.46      28.61        324.0       no
+Al 6061-T6            5.0      37.03      37.27        405.0       no
+Al 6061-T6            6.0      45.73      46.06        486.0      yes
+CFRP quasi-iso        1.0       4.38       4.39         46.5       no
+CFRP quasi-iso        1.6       8.43       8.43         74.4       no
+CFRP quasi-iso        2.0      11.41      11.42         93.0       no
+CFRP quasi-iso        2.5      15.36      15.39        116.2       no
+CFRP quasi-iso        3.0      19.50      19.55        139.5       no
+CFRP quasi-iso        4.0      28.19      28.28        186.0       no
+CFRP quasi-iso        5.0      37.25      37.40        232.5       no
+CFRP quasi-iso        6.0      46.56      46.78        279.0      yes
+CHOSEN DESIGN: Al 6061-T6, t = 6.0 mm, panel mass = 486 g (+ 50 g tip)
+  Bending modes (beam FEM): 45.7  298.8  857.7  1711.2   Hz
+  Expected f1 in ANSYS: between 45.7 Hz (beam) and 48.4 Hz (wide plate)
+  Margin over requirement: 14%
+  ANSYS will also show torsion modes, which the beam model cannot.
+         line 0: warning: iconv failed to convert degree sign
+         line 0: warning: iconv failed to convert degree sign
+STEP 2b: sandwich panel, Al faces 0.3 mm each, core 50 kg/m^3
+core (mm)       f1 (Hz)     mass (g)      OK?
+3                  22.3         57.6       no
+5                  35.6         60.6       no
+6                  42.2         62.1       no
+8                  55.3         65.1      yes
+10                 68.3         68.1      yes
+12                 81.1         71.1      yes
+15                100.1         75.6      yes
+20                131.1         83.1      yes
+Comparison (same length, width and tip mass):
+  Solid Al, 6.0 mm:            f1 =  45.7 Hz, panel mass =  486 g
+  Sandwich, 8 mm core:        f1 =  55.3 Hz, panel mass =   65 g
+  Mass saving: 87%
+         line 0: warning: iconv failed to convert degree sign
+STEP 3: sine response of Al 6061-T6, t = 6.0 mm
+Damping zeta = 0.020  ->  Q = 25  (guide requires 10 <= Q <= 50)
+Mode   f (Hz)   eff. mass (g)   eff. mass (%)
+   1      45.7          334.0           63.2
+   2     298.8           99.6           18.9
+   3     857.7           34.1            6.4
+   4    1711.2           17.2            3.3
+Sum of listed modes: 91.8 % of total mass 528 g
+Input: 1.0 g from 5 to 100 Hz (unit input)
+Peak transmissibility at tip: 35.1 at 45.7 Hz
+Peak tip acceleration:        35.1 g
+Peak root bending stress:     32.2 MPa at 45.7 Hz
+Margin of safety (FS = 1.25 on yield 276 MPa): MS = 5.86  (OK)
+         line 0: warning: iconv failed to convert degree sign
+         line 0: warning: iconv failed to convert degree sign
